@@ -56,21 +56,16 @@ if __name__ == "__main__":
     url = get_url(config_data)
     headers = login(url, auth_data)
 
-total_volumes = httpx.get(f"{url}/control/volumes", headers=headers)
-volumes = total_volumes.json()["volumes"]
+    total_volumes = httpx.get(f"{url}/control/volumes", headers=headers)
+    volumes = total_volumes.json()["volumes"]
+    
 
-for pool in volumes.values():
-    for vol in pool:
-        #if vol["recycle"]:
-        if vol["volumename"] == "Wal-31420":
-            volume_id = vol["mediaid"]
-            volume_name = vol["volumename"]
-
-            read_volume = httpx.delete(f"{url}/control/jobs/31420", headers=headers)
-            pprint(str(read_volume.content))
-            
-            read_volume = httpx.delete(f"{url}/control/volumes/{volume_name}", headers=headers)
-            pprint(str(read_volume.content))
-            
-            #read_volume = httpx.get(f"http://bareos.svc.ot.ru:8000/control/volumes/{volume_id}", headers=headers)
-            #pprint(str(read_volume.content))
+    for pool in volumes.values():
+        for vol in pool:
+            #if vol["recycle"]:
+            if vol["volumename"] == "Wal-31421":
+                volume_id = vol["mediaid"]
+                volume_name = vol["volumename"]
+    
+                read_volume = httpx.delete(f"{url}/control/volumes/{volume_name}", headers=headers)
+                pprint(str(read_volume.content))
