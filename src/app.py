@@ -17,7 +17,6 @@ def get_config_data(config_file):
         "hostname": hostname,
         "port": port
         }
-
     return config_data
 
 
@@ -32,7 +31,6 @@ def get_auth_data(config_file):
         "username": username,
         "password": password
         }
-
     return auth_data
     
 
@@ -67,6 +65,12 @@ for pool in volumes.values():
         if vol["volumename"] == "Wal-31420":
             volume_id = vol["mediaid"]
             volume_name = vol["volumename"]
-            #read_volume = httpx.delete(f"http://bareos.svc.ot.ru:8000/control/volumes/{volume_name}", headers=headers)
-            read_volume = httpx.get(f"http://bareos.svc.ot.ru:8000/control/volumes/{volume_id}", headers=headers)
+
+            read_volume = httpx.delete(f"{url}/control/jobs/31420", headers=headers)
             pprint(str(read_volume.content))
+            
+            read_volume = httpx.delete(f"{url}/control/volumes/{volume_name}", headers=headers)
+            pprint(str(read_volume.content))
+            
+            #read_volume = httpx.get(f"http://bareos.svc.ot.ru:8000/control/volumes/{volume_id}", headers=headers)
+            #pprint(str(read_volume.content))
