@@ -92,12 +92,11 @@ if __name__ == "__main__":
     logging.basicConfig(filename=config_data["logfile"], level=logging.INFO)
     logging.info(f'Start time: {start.strftime("%Y-%m-%d %H:%M:%S")}')
 
-
     url = get_url(config_data)
     headers = login(url, auth_data)
 
-    volumes = list_volumes_to_remove(url=f"{url}/control/volumes", headers=headers)
-    requests = make_requests_to_remove(url=f"{url}/control/volumes", volumes=volumes)
+    volumes = list_volumes_to_remove(f"{url}/control/volumes", headers)
+    requests = make_requests_to_remove(f"{url}/control/volumes", volumes)
     files = add_path_to_files(config_data["storage"], volumes)
 
     remove_volumes(requests, headers, files)
