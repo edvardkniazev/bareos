@@ -1,6 +1,8 @@
 [Common]
-hostname = bareos.svc.ot.ru
+hostname = example.com
 port = 8000
+storage = /var/lib/bareos/storage
+logfile = /var/log/bareos/removed_volumes.log
 
 [Authentication]
 username = admin
