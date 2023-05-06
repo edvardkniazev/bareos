@@ -13,13 +13,12 @@ def get_config_data(config_file):
     config = configparser.ConfigParser()
     config.read(config_file)
 
-    config_data = {
+    return {
         "hostname": config.get("Common", "hostname"),
         "port":     config.get("Common", "port"),
         "storage":  config.get("Common", "storage"),
         "logfile":  config.get("Common", "logfile")
         }
-    return config_data
 
 
 def get_auth_data(config_file):
@@ -29,27 +28,24 @@ def get_auth_data(config_file):
     username = config.get("Authentication", "username")
     password = config.get("Authentication", "password")
     
-    auth_data = {
+    return {
         "username": username,
         "password": password
         }
-    return auth_data
     
 
 def get_url(config_data):
     hostname = config_data["hostname"]
     port = config_data["port"]
-    url = f"http://{hostname}:{port}"
-    return url 
+    return f"http://{hostname}:{port}"
 
 
 def login(url, auth_data):
     auth_response = httpx.post(f"{url}/token", data=auth_data)
     access_token = auth_response.json()["access_token"]
-    headers = {
+    return {
         "Authorization": f"Bearer {access_token}"
         }
-    return headers
 
 
 def list_volumes_to_remove(url, headers):
@@ -64,13 +60,11 @@ def list_volumes_to_remove(url, headers):
 
 
 def make_requests_to_remove(url, volumes):
-    requests = [f"{url}/{v}" for v in volumes]
-    return requests
+    return [f"{url}/{v}" for v in volumes]
 
 
 def add_path_to_files(path, files):
-    files = [os.path.join(path, file) for file in files]
-    return files
+    return [os.path.join(path, file) for file in files]
 
 
 def remove_volumes(requests, headers, files):
@@ -86,7 +80,6 @@ def remove_volumes(requests, headers, files):
             logging.info(f"Removed successfully {file}")
         except OSError as e:
             logging.error(f"{e.strerror} {file}")
-        status_code = "400"
 
 
 if __name__ == "__main__":
