@@ -6,7 +6,7 @@ from datetime import datetime
 from pprint import pprint   # only for debug purpose
 
 
-config_file="config.ini"
+config_file="etc/config.ini"
 
 
 def get_config_data(config_file):
