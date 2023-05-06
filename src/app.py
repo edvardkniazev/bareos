@@ -75,18 +75,30 @@ def add_path_to_files(path, files):
 
 def remove_volumes(requests, headers, files):
     for request, file in zip(requests, files):
-        #httpx.delete(url=request, headers=headers)
-        logging.debug(request)
-        #os.remove(file)
-        logging.debug(file)
+        response = httpx.delete(url=request, headers=headers)
+        if response.status_code == "204":
+            logging.info(f"Removed successfully {request}")
+        else:
+            logging.error(f"{response.status_code} {request}")
+
+        try:
+            os.remove(file)
+            logging.info(f"Removed successfully {file}")
+        except OSError as e:
+            logging.error(f"{e.strerror} {file}")
+        status_code = "400"
 
 
 if __name__ == "__main__":
 
+    start = datetime.now()
+
     config_data = get_config_data(config_file)
     auth_data = get_auth_data(config_file)
 
-    logging.basicConfig(filename=config_data["logfile"], level=logging.DEBUG)
+    logging.basicConfig(filename=config_data["logfile"], level=logging.INFO)
+    logging.info(f'Start time: {start.strftime("%Y-%m-%d %H:%M:%S")}')
+
 
     url = get_url(config_data)
     headers = login(url, auth_data)
@@ -96,3 +108,8 @@ if __name__ == "__main__":
     files = add_path_to_files(config_data["storage"], volumes)
 
     remove_volumes(requests, headers, files)
+
+    end = datetime.now()
+    elapsed = end - start
+    logging.info(f'End time: {end.strftime("%Y-%m-%d %H:%M:%S")}')
+    logging.info(f'Elapsed time: {elapsed}')
