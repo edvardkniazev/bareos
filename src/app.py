@@ -3,7 +3,6 @@ import configparser
 import os
 import logging
 from datetime import datetime
-from pprint import pprint   # only for debug purpose
 
 
 config_file="etc/config.ini"
