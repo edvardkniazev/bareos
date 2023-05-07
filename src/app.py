@@ -70,16 +70,15 @@ def add_path_to_files(path, files):
 def remove_volumes(requests, headers, files):
     for request, file in zip(requests, files):
         response = httpx.delete(url=request, headers=headers)
-        if response.status_code == "204":
+        if response.status_code == 204:
             logging.info(f"Removed successfully {request}")
+            try:
+                os.remove(file)
+                logging.info(f"Removed successfully {file}")
+            except OSError as e:
+                logging.error(f"{e.strerror} {file}")
         else:
             logging.error(f"{response.status_code} {request}")
-
-        try:
-            os.remove(file)
-            logging.info(f"Removed successfully {file}")
-        except OSError as e:
-            logging.error(f"{e.strerror} {file}")
 
 
 if __name__ == "__main__":
