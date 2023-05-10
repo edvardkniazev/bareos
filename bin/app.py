@@ -68,7 +68,8 @@ def add_path_to_files(path, files):
 
 def remove_volumes(requests, headers, files):
     for request, file in zip(requests, files):
-        response = httpx.delete(url=request, headers=headers)
+        #response = httpx.delete(url=request, headers=headers)
+        response = httpx.delete(url="http://bareos.svc.ot.ru:8000/control/volumes/test", headers=headers)
         if response.status_code == 204:
             logging.info(f"Removed successfully {request}")
             try:

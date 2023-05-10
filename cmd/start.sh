@@ -1,1 +1,1 @@
-uvicorn --app-dir src app:app --port 8000 --reload
+uvicorn --app-dir bin app:app --port 8000 --reload

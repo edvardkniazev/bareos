@@ -1,4 +1,4 @@
-from src.app import *
+from bin.app import *
 
 
 config_file = "config.ini.example"
