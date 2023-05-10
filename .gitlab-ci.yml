@@ -1,6 +1,7 @@
 test-job1:
   stage: test
   script:
+    - source ./venv/bin/activate
     - py.test
 
 deploy-prod:
