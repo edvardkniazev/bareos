@@ -1,7 +1,7 @@
 from bin.app import *
 
 
-config_file = "config.ini.example"
+config_file = "etc/config.ini"
 
 
 def test_get_config_data():
