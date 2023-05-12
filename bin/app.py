@@ -58,27 +58,25 @@ def list_volumes_to_remove(url, headers):
     return volumes_to_remove
 
 
-def make_requests_to_remove(url, volumes):
-    return [f"{url}/{v}" for v in volumes]
-
-
-def add_path_to_files(path, files):
-    return [os.path.join(path, file) for file in files]
-
-
-def remove_volumes(requests, headers, files):
-    for request, file in zip(requests, files):
+def remove_volumes(url, headers, volumes):
+    requests = [f"{url}/control/volumes/{v}" for v in volumes]
+    for request in requests:
         #response = httpx.delete(url=request, headers=headers)
-        response = httpx.delete(url="http://bareos.svc.ot.ru:8000/control/volumes/test", headers=headers)
-        if response.status_code == 204:
+        #if response.status_code == 204:
+        if True:
             logging.info(f"Removed successfully {request}")
-            try:
-                os.remove(file)
-                logging.info(f"Removed successfully {file}")
-            except OSError as e:
-                logging.error(f"{e.strerror} {file}")
         else:
             logging.error(f"{response.status_code} {request}")
+
+
+def remove_files(path, files):
+    path_files = [os.path.join(path, file) for file in files]
+    for file in path_files:
+        try:
+            #os.remove(file)
+            logging.info(f"Removed successfully {file}")
+        except OSError as e:
+            logging.error(f"{e.strerror} {file}")
 
 
 if __name__ == "__main__":
@@ -95,10 +93,10 @@ if __name__ == "__main__":
     headers = login(url, auth_data)
 
     volumes = list_volumes_to_remove(f"{url}/control/volumes", headers)
-    requests = make_requests_to_remove(f"{url}/control/volumes", volumes)
-    files = add_path_to_files(config_data["storage"], volumes)
+    remove_volumes(url, headers, volumes)
 
-    remove_volumes(requests, headers, files)
+    files = volumes.copy()
+    remove_files(config_data["storage"], files)
 
     end = datetime.now()
     elapsed = end - start
