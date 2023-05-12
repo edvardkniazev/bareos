@@ -2,7 +2,7 @@ build-job:
   stage: build
   image: python:3.11.3-slim-bullseye
   script:
-    - pip install -r requirements.txt
+    - pip install requirements.txt
 
 test-job:
   stage: test
