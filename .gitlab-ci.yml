@@ -1,7 +1,6 @@
 image: python:3.11.3-slim-bullseye
 
 before_script:
-  - python --version
   - python -m venv venv
   - source venv/bin/activate
 
@@ -14,6 +13,7 @@ test-job:
   stage: test
   script:
     - echo test-job
+    - py.test
 
 deploy-prod:
   stage: deploy
