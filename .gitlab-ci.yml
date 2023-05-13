@@ -5,12 +5,12 @@ before_script:
 
 build-job:
   stage: build
-  image: python:3.11.3-slim-bullseye
   script:
     - echo build-job
 
 test-job:
   stage: test
+  image: python:3.11.3-slim-bullseye
   script:
     - echo test-job
 
