@@ -27,6 +27,7 @@ class Url:
         self.base = f"http://{cfg.hostname}:{cfg.port}"
         self.token = f"{self.base}/token"
         self.control_volumes = f"{self.base}/control/volumes"
+        self.control_jobs = f"{self.base}/control/jobs"
         self.path = cfg.storage
 
 
