@@ -32,5 +32,4 @@ deploy-prod:
     - ssh-keyscan bareos >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - whoami
-    - ssh ot@bareos 'echo "Hello, world!"'
+    - scp -r bin ot@bareos:/opt/remove_volumes/
