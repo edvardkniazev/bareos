@@ -1,4 +1,5 @@
 import pytest
 from bin.app import Config
 
-assert True
+def test_true():
+    assert True
