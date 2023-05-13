@@ -5,6 +5,7 @@ before_script:
 
 build-job:
   stage: build
+  image: python:3.11.3-slim-bullseye
   script:
     - echo build-job
 
