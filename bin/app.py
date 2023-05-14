@@ -118,8 +118,18 @@ class Volumes():
         return files[0]
 
     def add_extra(self):
-        extra_files = list(set(self.fs_walk()) - set(self.used_volumes))
-        self.obsolete_files.extend(extra_files)
+        self.obsolete_files = list(
+                set(self.obsolete_files)
+                | set(self.fs_walk())
+                - set(self.used_volumes)
+                )
+
+    def apply(self):
+        self.request_purged_volumes()
+        self.request_used_volumes()
+        self.add_extra()
+        self.remove_volumes()
+        self.remove_files()
 
 
 if __name__ == "__main__":
@@ -135,12 +145,7 @@ if __name__ == "__main__":
     auth = Authorization(cfg)
     headers = auth.login(url.token)
     volumes = Volumes(url, headers)
-
-    volumes.request_purged_volumes()
-    volumes.request_used_volumes()
-    volumes.add_extra()
-    volumes.remove_volumes()
-    volumes.remove_files()
+    volumes.apply()
 
     end = datetime.now()
     elapsed = end - start
