@@ -2,3 +2,4 @@ venv
 config.ini
 log
 __pycache__
+storage
